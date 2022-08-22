@@ -18,6 +18,10 @@ class OcrOnlyStripper:
             if boxes["level"][i] != 5:
                 continue
 
+            # filter empty text
+            if not boxes["text"][i].strip():
+                continue
+
             x = boxes["left"][i]
             y = boxes["top"][i]
             w = boxes["width"][i]
