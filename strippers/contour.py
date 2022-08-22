@@ -12,6 +12,9 @@ class ContourStripper:
     def strip(self):
         # Convert the image to gray scale
         gray = cv2.cvtColor(self.input_img, cv2.COLOR_BGR2GRAY)
+        
+        #blurried image
+        blurried = cv2.blur(self.input_img, (30, 30))
 
         # Performing OTSU threshold
         ret, thresh1 = cv2.threshold(gray, 0, 255, cv2.THRESH_OTSU | cv2.THRESH_BINARY_INV)
@@ -42,11 +45,10 @@ class ContourStripper:
             # Apply OCR on the cropped image
             text = pytesseract.image_to_string(cropped)
 
-            # Drawing a rectangle on copied image
-            rect = cv2.rectangle(self.output_img, (x, y), (x + w, y + h), (0, 0, 0), -1)
-
             if text:
                 print(f"{text} = {{{x},{y},{w},{h}}}\n")
+                #blurring the text square
+                self.output_img[y:y + h, x:x + w] = blurried[y:y + h, x:x + w]
 
         cv2.imwrite(self.output, self.output_img)
 
