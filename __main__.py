@@ -35,6 +35,7 @@ contours, hierarchy = cv2.findContours(dilation, cv2.RETR_EXTERNAL,
 
 # Creating a copy of image
 im2 = img.copy()
+blurry = cv2.blur(im2,(50,50))
 
 # A text file is created and flushed
 file = open("recognized.txt", "w+")
@@ -58,15 +59,18 @@ for cnt in contours:
     text = pytesseract.image_to_string(cropped)
 	
     # Drawing a rectangle on copied image
-    rect = cv2.rectangle(im2, (x, y), (x + w, y + h), (0, 0, 0), -1)
+    #rect = cv2.rectangle(im2, (x, y), (x + w, y + h), (0, 0, 0), -1)
+    #rect = cv2.GaussianBlur(cropped,(5,5),cv2.BORDER_DEFAULT)
 
     if text:
         # Appending the text into file
         #file.write(f"{text} = {{{x},{y},{w},{h}}}")
         #file.write("\n")
         print(f"{text} = {{{x},{y},{w},{h}}}\n")
+        im2[y:y + h, x:x + w] = blurry[y:y + h, x:x + w]
 	
 	# Close the file
     #file.close
 
 cv2.imwrite(f"redacted-{sys.argv[1]}", im2)
+print("end")
