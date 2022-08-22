@@ -128,3 +128,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 redacted-*
+.DS_Store
+outputs/
