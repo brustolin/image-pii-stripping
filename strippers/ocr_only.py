@@ -11,19 +11,24 @@ class OcrOnlyStripper:
 
     def strip(self):
         boxes = pytesseract.image_to_data(self.input_img, output_type="dict")
+        font = cv2.FONT_HERSHEY_SIMPLEX
 
         for i in range(len(boxes["level"])):
             # level mapping: 1 - page, 2 - block, 3 - paragraph, 4 - line, 5 - word
             # take only words
             if boxes["level"][i] != 5:
                 continue
-
+            
             x = boxes["left"][i]
             y = boxes["top"][i]
             w = boxes["width"][i]
             h = boxes["height"][i]
+            
+            text = boxes["text"][i].strip()
 
-            cv2.rectangle(self.output_img, (x, y), (x + w, y + h), (0, 0, 0), -1)
+            print(f"{text} = {{{x},{y},{w},{h}}}")
+            if text:
+                cv2.rectangle(self.output_img, (x, y), (x + w, y + h), (0, 0, 255), 3)
 
         cv2.imwrite(self.output, self.output_img)
 

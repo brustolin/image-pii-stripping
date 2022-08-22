@@ -45,7 +45,7 @@ class ContourStripper:
             # Apply OCR on the cropped image
             text = pytesseract.image_to_string(cropped)
 
-            if text:
+            if text.strip():
                 print(f"{text} = {{{x},{y},{w},{h}}}\n")
                 #blurring the text square
                 self.output_img[y:y + h, x:x + w] = blurried[y:y + h, x:x + w]
