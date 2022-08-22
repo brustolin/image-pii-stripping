@@ -18,14 +18,18 @@ class OcrOnlyStripper:
             # take only words
             if boxes["level"][i] != 5:
                 continue
-            
+
+            text = boxes["text"][i].strip()
+
+            # filter empty text
+            if not text:
+                continue
+
             x = boxes["left"][i]
             y = boxes["top"][i]
             w = boxes["width"][i]
             h = boxes["height"][i]
             
-            text = boxes["text"][i].strip()
-
             print(f"{text} = {{{x},{y},{w},{h}}}")
             if text:
                 cv2.rectangle(self.output_img, (x, y), (x + w, y + h), (0, 0, 255), 3)
