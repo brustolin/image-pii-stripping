@@ -1,0 +1,1 @@
+# image-pii-stripping
