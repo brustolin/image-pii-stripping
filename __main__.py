@@ -3,6 +3,7 @@ import sys
 from strippers.contour import ContourStripper
 from strippers.ocr_only import OcrOnlyStripper
 
+
 if len(sys.argv) < 2:
     print("Usage: python . input_image [algo]")
     print("\tValid algos: contour ocr")
