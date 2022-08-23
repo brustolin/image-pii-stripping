@@ -1,7 +1,7 @@
 #!/Library/Frameworks/Python.framework/Versions/3.10/bin/python3
 import sys
-from strippers.contour import ContourStripper
-from strippers.ocr_only import OcrOnlyStripper
+from pii_stripper.contour import ContourStripper
+from pii_stripper.ocr_only import OcrOnlyStripper
 
 
 if len(sys.argv) < 2:
