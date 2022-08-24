@@ -36,8 +36,4 @@ def is_name_or_address(text):
 
 
 def is_pii(text):
-    return (
-        re.match(CREDITCARD_REGEX, text)
-        or re.match(EMAIL_REGEX, text)
-        or is_name_or_address(text)
-    )
+    return re.match(CREDITCARD_REGEX, text) or re.match(EMAIL_REGEX, text)
