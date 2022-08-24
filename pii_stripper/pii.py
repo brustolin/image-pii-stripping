@@ -1,7 +1,39 @@
 import re
+import spacy
+
+nlp = spacy.load("en_core_web_sm")
+
+CREDITCARD_REGEX = r"""
+(?x)
+    (?:  # vendor specific prefixes
+          3[47]\d      # amex (no 13-digit version) (length: 15)
+        | 4\d{3}       # visa (16-digit version only)
+        | 5[1-5]\d\d   # mastercard
+        | 65\d\d       # discover network (subset)
+        | 6011         # discover network (subset)
+    )
+
+    # "wildcard" remainder (allowing dashes in every position because of variable length)
+    ([-\s]?\d){12}
+"""
+
+EMAIL_REGEX = r"""
+(?x)
+    \b
+        [a-zA-Z0-9.!\#$%&'*+/=?^_`{|}~-]+
+        @
+        [a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*
+    \b
+"""
 
 
-CREDITCARD_REGEX = r"(?<!\-|\.)(?:(?:(?:4\d|5[1-5]|65)(\d\d)(?!\1{3})|35(?:2[89]|[3-8]\d)|6(?:011|4[4-9]\d|22(?:1(?!1\d|2[1-5])|[2-8]|9(?=1\d|2[1-5]))))([\ \-]?)(?<!\d\ \d{4}\ )(?!(\d)\3{3})(\d{4})\2(?!\4|(\d)\5{3}|1234|2345|3456|5678|7890)(\d{4})(?!\ \d{4}\ \d)\2(?!\6|(\d)\7{3}|1234|3456)|3[47]\d{2}([\ \-]?)(?<!\d\ \d{4}\ )(?!(\d)\9{5}|123456|234567|345678)\d{6}(?!\ \d{5}\ \d)\8(?!(\d)\10{4}|12345|56789|67890)\d)\d{4}(?!\-)(?!\.\d)"
+def is_name_or_address(text):
+    doc = nlp(text)
+    labels = {ent.label_ for ent in doc.ents}
+    # print(text)
+    # print(labels)
+    return bool({"PERSON", "GPE"} & labels)
+
 
 def is_pii(text):
-    return re.match(CREDITCARD_REGEX, text)
+    return re.match(CREDITCARD_REGEX, text) or re.match(EMAIL_REGEX, text)

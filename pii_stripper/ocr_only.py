@@ -1,7 +1,7 @@
 import cv2
 import pytesseract
 
-from .pii import is_pii
+from .pii import is_pii, is_name_or_address
 
 
 class OcrOnlyStripper:
@@ -26,17 +26,26 @@ class OcrOnlyStripper:
                 continue
 
             # find other words in same line
-            line_words = [v for j, v in enumerate(boxes["text"]) if boxes["level"][j] == 5 and
-                    boxes["page_num"][j] == boxes["page_num"][j] and
-                    boxes["block_num"][j] == boxes["block_num"][i] and
-                    boxes["par_num"][j] == boxes["par_num"][i] and
-                    boxes["line_num"][j] == boxes["line_num"][i]]
+            line_words = [
+                v
+                for j, v in enumerate(boxes["text"])
+                if boxes["level"][j] == 5
+                and boxes["page_num"][j] == boxes["page_num"][j]
+                and boxes["block_num"][j] == boxes["block_num"][i]
+                and boxes["par_num"][j] == boxes["par_num"][i]
+                and boxes["line_num"][j] == boxes["line_num"][i]
+            ]
 
             line_text = "".join(line_words)
+            line_text_with_spaces = " ".join(line_words)
 
             # draw rectangles over pii
             # we check both the word and the reconstructed line that word belongs to for pii
-            if is_pii(text) or is_pii(line_text):
+            if (
+                is_pii(text)
+                or is_pii(line_text)
+                or is_name_or_address(line_text_with_spaces)
+            ):
                 x = boxes["left"][i]
                 y = boxes["top"][i]
                 w = boxes["width"][i]
