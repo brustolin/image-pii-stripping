@@ -26,11 +26,15 @@ class OcrOnlyStripper:
                 continue
 
             # find other words in same line
-            line_words = [v for j, v in enumerate(boxes["text"]) if boxes["level"][j] == 5 and
-                    boxes["page_num"][j] == boxes["page_num"][j] and
-                    boxes["block_num"][j] == boxes["block_num"][i] and
-                    boxes["par_num"][j] == boxes["par_num"][i] and
-                    boxes["line_num"][j] == boxes["line_num"][i]]
+            line_words = [
+                v
+                for j, v in enumerate(boxes["text"])
+                if boxes["level"][j] == 5
+                and boxes["page_num"][j] == boxes["page_num"][j]
+                and boxes["block_num"][j] == boxes["block_num"][i]
+                and boxes["par_num"][j] == boxes["par_num"][i]
+                and boxes["line_num"][j] == boxes["line_num"][i]
+            ]
 
             line_text = "".join(line_words)
 

@@ -15,6 +15,15 @@ CREDITCARD_REGEX = r"""
     ([-\s]?\d){12}
 """
 
+EMAIL_REGEX = r"""
+(?x)
+    \b
+        [a-zA-Z0-9.!\#$%&'*+/=?^_`{|}~-]+
+        @
+        [a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*
+    \b
+"""
+
 
 def is_pii(text):
-    return re.match(CREDITCARD_REGEX, text)
+    return re.match(CREDITCARD_REGEX, text) or re.match(EMAIL_REGEX, text)
