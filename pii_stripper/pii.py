@@ -1,5 +1,7 @@
 import re
+import spacy
 
+nlp = spacy.load("en_core_web_sm")
 
 CREDITCARD_REGEX = r"""
 (?x)
@@ -23,6 +25,14 @@ EMAIL_REGEX = r"""
         [a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*
     \b
 """
+
+
+def is_name_or_address(text):
+    doc = nlp(text)
+    labels = {ent.label_ for ent in doc.ents}
+    # print(text)
+    # print(labels)
+    return bool({"PERSON", "GPE"} & labels)
 
 
 def is_pii(text):
