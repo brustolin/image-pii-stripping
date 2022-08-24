@@ -2,6 +2,7 @@
 import sys
 from pii_stripper.contour import ContourStripper
 from pii_stripper.ocr_only import OcrOnlyStripper
+from pii_stripper.ml import MLStripper
 
 
 if len(sys.argv) < 2:
@@ -17,5 +18,7 @@ if len(sys.argv) > 2:
 
 if algo == "ocr":
     OcrOnlyStripper(input).strip()
+elif algo == "ml":
+    MLStripper(input).strip()
 else:
     ContourStripper(input).strip()
