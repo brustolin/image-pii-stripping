@@ -1,0 +1,15 @@
+---
+truncatesources: true
+cleancache: true
+keys:
+- https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x8529b1e0f8bf7f65c12fabb0a4bcbd87cef9e52d
+repos:
+- deb https://ppa.launchpadcontent.net/alex-p/tesseract-ocr-devel/ubuntu jammy main
+- deb-src https://ppa.launchpadcontent.net/alex-p/tesseract-ocr-devel/ubuntu jammy main
+packages:
+- libsm6
+- libxrender1
+- libfontconfig1
+- libice6
+- tesseract-ocr
+- libarchive13
