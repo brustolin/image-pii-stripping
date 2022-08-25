@@ -1,4 +1,5 @@
 import os
+import sentry_sdk
 from base64 import b64encode
 from flask import Flask, request, render_template
 
@@ -6,6 +7,7 @@ from pii_stripper.ocr_only import OcrOnlyStripper
 
 
 UPLOAD_FOLDER = "./uploads"
+sentry_sdk.init(traces_sample_rate=1.0)
 app = Flask(__name__)
 
 
