@@ -1,14 +1,22 @@
 import cv2
+import numpy
 import pytesseract
 
 from .pii import is_pii, is_name_or_address
 
 
 class OcrOnlyStripper:
-    def __init__(self, input, output=None):
+    def __init__(self, input, output=None, flask=False):
+        self.flask = flask  # input bytes, output bytes
         self.input = input
-        self.output = output or f"outputs/redacted-ocr-{input.split('/')[-1]}"
-        self.input_img = cv2.imread(input)
+
+        if self.flask:
+            nparr = numpy.fromstring(input, numpy.uint8)
+            self.input_img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+        else:
+            self.input_img = cv2.imread(input)
+            self.output = output or f"outputs/redacted-ocr-{input.split('/')[-1]}"
+
         self.output_img = self.input_img.copy()
 
     def strip(self):
@@ -53,4 +61,8 @@ class OcrOnlyStripper:
 
                 cv2.rectangle(self.output_img, (x, y), (x + w, y + h), (0, 0, 0), -1)
 
-        cv2.imwrite(self.output, self.output_img)
+        if self.flask:
+            _, out_bytes = cv2.imencode(".jpg", self.output_img)
+            return out_bytes
+        else:
+            cv2.imwrite(self.output, self.output_img)

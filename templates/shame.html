@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>SHAME!</title>
+    <style>
+        #app {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        table {
+            margin: 0 auto;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        #errors {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+  </head>
+  <body>
+      <div id="app">
+          <table>
+              <tr>
+                  <th> INPUT </th>
+                  <th> OUTPUT </th>
+              </tr>
+              <tr>
+                  <td>
+                      {% if input_img %}
+                          <img src="data:;base64,{{ input_img }}"/>
+                      {% else %}
+                          <form method = "POST" enctype = "multipart/form-data">
+                              <div>
+                                  <label for="image_upload">Upload shameful image</label>
+                              </div>
+                              <div>
+                                  <input type="file" id="image_upload" name="image_upload" accept=".jpg, .jpeg, .png">
+                              </div>
+                              <div>
+                                  <button>Submit</button>
+                              </div>
+                          </form>
+                      {% endif %}
+                  </td>
+                  <td>
+                      {% if output_img %}
+                          <img src="data:;base64,{{ output_img }}"/>
+                      {% endif %}
+                  </td>
+              </tr>
+          </table>
+          <div id="errors">
+              {% if error %}
+                  {{ error }}
+              {% endif %}
+          </div>
+      </div>
+  </body>
+</html>
