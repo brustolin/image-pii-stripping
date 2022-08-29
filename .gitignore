@@ -130,3 +130,4 @@ dmypy.json
 redacted-*
 .DS_Store
 outputs/
+uploads/

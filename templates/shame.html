@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>SHAME!</title>
+    <style>
+        body {
+            background-image: url("https://c.tenor.com/fMUldFvCakwAAAAC/cersei-lannistare-walk-of-shame.gif");
+        }
+
+        #app {
+            background-color: white;
+            background-image: none;
+            padding: 50px;
+            width: auto;
+            height: auto;
+            border: solid 5px red;
+            z-index: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #header {
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 60px;
+            background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+            margin: 5px;
+        }
+
+        h2, h6 {
+            margin: 2px;
+            color: red;
+            -moz-animation: marquee 10s linear infinite;
+            -webkit-animation: marquee 10s linear infinite;
+            animation: marquee 10s linear infinite;
+        }
+
+        h6 {
+            margin-bottom: 10px;
+        }
+
+        @-moz-keyframes marquee {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+        @-webkit-keyframes marquee {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+        @keyframes marquee {
+            0% {
+                -moz-transform: translateX(100%);
+                -webkit-transform: translateX(100%);
+                transform: translateX(100%)
+            }
+            100% {
+                -moz-transform: translateX(-100%);
+                -webkit-transform: translateX(-100%);
+                transform: translateX(-100%);
+            }
+        }
+
+        table {
+            margin: 0 auto;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 5px;
+        }
+
+        input, button {
+            margin: 5px;
+        }
+
+        #errors {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+  </head>
+  <body>
+      <div id="app">
+          <div id="header">
+              <h1> <a href="/"> SHAME </a> </h1>
+              <h2> Sentry Hide All My Embarrassing </h2>
+              <h6>(online activities)</h6>
+          </div>
+          <table>
+              <tr>
+                  <th> INPUT </th>
+                  <th> OUTPUT </th>
+              </tr>
+              <tr>
+                  <td>
+                      {% if input_img %}
+                          <img src="data:;base64,{{ input_img }}"/>
+                      {% else %}
+                          <form method = "POST" enctype = "multipart/form-data">
+                              <div>
+                                  <label for="image_upload">Upload shameful image</label>
+                              </div>
+                              <div>
+                                  <input type="file" id="image_upload" name="image_upload" accept=".jpg, .jpeg, .png">
+                              </div>
+                              <div>
+                                  <button>Submit</button>
+                              </div>
+                          </form>
+                      {% endif %}
+                  </td>
+                  <td>
+                      {% if output_img %}
+                          <img src="data:;base64,{{ output_img }}"/>
+                      {% endif %}
+                  </td>
+              </tr>
+          </table>
+          <div id="errors">
+              {% if error %}
+                  {{ error }}
+              {% endif %}
+          </div>
+      </div>
+  </body>
+</html>
